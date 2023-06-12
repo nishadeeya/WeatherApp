@@ -1,0 +1,28 @@
+img {
+    max-width: 100px;
+  }
+
+  
+  .header-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    color: #333;
+     height:3.5rem ;
+    box-shadow: 0 0px 10px 0px rgba(0,0,0,0.3) !important;
+}
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  
+  

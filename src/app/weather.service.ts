@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,10 @@ export class WeatherService {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${this.apiKey}`;
     return axios.get(apiUrl);
   }
-
+  getCurrentWeather(latitude: number, longitude: number): Promise<AxiosResponse<any>> {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${this.apiKey}`;
+    return axios.get(apiUrl);
+  }
   getForecast(city: string) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${this.apiKey}`;
     return axios.get(apiUrl);
