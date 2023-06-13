@@ -47,8 +47,7 @@ export class WeatherComponent {
       .then(response => {
         this.weatherData = response.data;
         this.temperature =  this.weatherData.main.temp
-        console.log(this.temperature);
-        
+        this.weatherGif=this.weatherIcon(this.weatherData.weather[0].main)
       })
       .catch(error => {
         console.log('Error:', error);
@@ -81,11 +80,13 @@ export class WeatherComponent {
     // }
       switch (condition) {
       case 'Sunny':
-        return 'assets/sunny.gif';
+        return 'assets/sunny1.gif';
       case 'Clouds':
-        return 'assets/cloudy1.gif';
+        return 'assets/cloudy.gif';
       case 'Clear':
-        return 'assets/images/rainy.png';
+        return 'assets/clear.gif';
+        case 'Haze':
+        return 'assets/haze.gif';
       // Add more cases for other weather conditions
       default:
         return '';
@@ -102,9 +103,9 @@ export class WeatherComponent {
             .then((response: any) => {
               this.weatherData = response.data;
               this.temperature =  this.weatherData.main.temp
-              console.log(this.temperature);
-              console.log(response.data);
               this.weatherGif=this.weatherIcon(this.weatherData.weather[0].main)
+              console.log(this.weatherGif);
+              
             })
             .catch((error: any) => {
               console.log('Error occurred: ' + error);
