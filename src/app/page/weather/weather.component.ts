@@ -75,8 +75,8 @@ export class WeatherComponent {
       case 'Sunny':
         return 'assets/sunny.gif';
       case 'Clouds':
-        return 'assets/cloudy.gif';
-      case 'rainy':
+        return 'assets/cloudy1.gif';
+      case 'Clear':
         return 'assets/images/rainy.png';
       // Add more cases for other weather conditions
       default:

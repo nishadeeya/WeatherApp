@@ -5,13 +5,16 @@
     // margin: 5em auto;
     display: flex;
     justify-content: center;
+    border: 1px solid black;
   }
   .login-pages {
     justify-content: center;
     display: flex;
     padding-top: 10rem;
   }  
-  
+  .text{
+    color: #fff;
+  }
 .btn {
     // transition: all .5s ease;
     width: 40%;
