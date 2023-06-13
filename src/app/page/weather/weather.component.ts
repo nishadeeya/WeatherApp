@@ -1,16 +1,19 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WeatherService } from '../../weather.service';
 import { FormControl, FormGroup, FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { WeatherService } from 'src/app/core/service/weather.service';
+import { CelToFahPipePipe } from 'src/app/common/celToFah/celToFah-pipe.pipe';
+import { FahTocelPipePipe } from 'src/app/common/FahTocel/FahTocel-pipe.pipe';
 
 @Component({
   selector: 'app-weather',
   standalone: true,
   imports: [CommonModule,FormsModule,NgSelectModule, FormsModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,],
   templateUrl: './weather.component.html',
-  styleUrls: ['./weather.component.scss']
+  styleUrls: ['./weather.component.scss'],
+  providers: [CelToFahPipePipe,FahTocelPipePipe]
 })
 export class WeatherComponent {
   city = '';
@@ -25,7 +28,9 @@ export class WeatherComponent {
   enableSelect: boolean=true;
   weatherForm: FormGroup;
   currentWeather: boolean;
-  constructor(private weatherService: WeatherService,private cd:ChangeDetectorRef) { }
+  toggleValue: boolean =false;
+  temperature: any;
+  constructor(private weatherService: WeatherService,private cd:ChangeDetectorRef,private celToFah: CelToFahPipePipe,private FahTocel: FahTocelPipePipe) { }
   ngOnInit(): void {
     this.getCurrentLocation();
     this.weatherForm = new FormGroup({
@@ -41,6 +46,9 @@ export class WeatherComponent {
     this.weatherService.getWeather(this.weatherForm.value.city)
       .then(response => {
         this.weatherData = response.data;
+        this.temperature =  this.weatherData.main.temp
+        console.log(this.temperature);
+        
       })
       .catch(error => {
         console.log('Error:', error);
@@ -93,6 +101,8 @@ export class WeatherComponent {
           this.weatherService.getCurrentWeather(latitude, longitude)
             .then((response: any) => {
               this.weatherData = response.data;
+              this.temperature =  this.weatherData.main.temp
+              console.log(this.temperature);
               console.log(response.data);
               this.weatherGif=this.weatherIcon(this.weatherData.weather[0].main)
             })
@@ -126,4 +136,18 @@ export class WeatherComponent {
     this.enableSelect=false;
     this.cd.detectChanges();
   }
+  toggleChanged() {
+    if(this.toggleValue == true){
+      this.temperature = this.celToFah.transform(this.temperature); 
+      console.log(this.temperature);
+         
+    }else{
+      this.temperature = this.FahTocel.transform(this.temperature);    
+      console.log(this.temperature);
+    }
+    console.log('Toggle value:', this.toggleValue);
+    // Perform any desired actions based on the new toggle value
+  }
 }
+
+

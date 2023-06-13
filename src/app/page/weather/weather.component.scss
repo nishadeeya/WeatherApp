@@ -23,8 +23,8 @@
 
 .card {
   background-image:
-    linear-gradient(rgba(0, 3, 0, 0.7),
-      rgba(3, 3, 0, 0.8)), url('../../../assets/home.jpg');
+    linear-gradient(rgba(0, 3, 0, 0.3),
+      rgba(3, 3, 0, 0.3));
   background-repeat: no-repeat !important;
   background-size: cover !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -32,8 +32,12 @@
   color: #fff;
   border-radius: 20px;
   border: 1px solid black;
+  background-color: transparent;
 }
-
+.heading{
+  font-size: 2rem;
+  color: rgb(231, 197, 103);
+}
 
 .row {
   display: flex;
@@ -58,11 +62,10 @@ i {
 
 .temp {
   font-weight: bold;
+  color: rgb(230, 139, 20);
 }
 
-.temp {
-  color: red;
-}
+
 
 .switch {
   position: relative;

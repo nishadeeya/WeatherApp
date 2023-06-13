@@ -50,10 +50,12 @@ API. -->
     <a class="navbar-brand d-none d-lg-block " href="#"><img src="../../../assets/weatherLogo.png" width="50"
         height="50" /></a>
     <form class="my-2 my-lg-0 d-lg-flex d-inline" [formGroup]="weatherForm">
-      <input class="form-control col-12 mr-sm-2" formControlName="city" (change)="onInput()" [(ngModel)]="city" type="text"  placeholder="Search  by city name, zip code..."
-        aria-label="Search">
+      <input class="form-control col-12 mr-sm-2" formControlName="city" (change)="onInput()" [(ngModel)]="city"
+        type="text" placeholder="Search  by city name, zip code..." aria-label="Search">
       <!-- <button class="btn btn-primary my-2 my-sm-0 mt-md-3 mt-lg-0 mt-3" type="submit">Search</button> -->
-      <ng-select [items]="weatherType" [readonly]="enableSelect" formControlName="selectWeather" (change)="onChangeWeatherType($event)" class="inputBox col-12 mr-sm-2 p-0 mt-2 mt-lg-0" bindLabel="name" placeholder="Select city" [(ngModel)]="selectedCity">
+      <ng-select [items]="weatherType" [readonly]="enableSelect" formControlName="selectWeather"
+        (change)="onChangeWeatherType($event)" class="inputBox col-12 mr-sm-2 p-0 mt-2 mt-lg-0" bindLabel="name"
+        placeholder="Select city" [(ngModel)]="selectedCity">
       </ng-select>
     </form>
   </div>
@@ -61,32 +63,43 @@ API. -->
 
 <div class="container" *ngIf="currentWeather">
   <div class="row">
-    <div class="col-md-6 col-lg-5">
-      <img [src]="weatherGif" alt="Weather Image" height="350vh" width="350vw" style=" margin-top: 2rem;">
+    <div class="col-md-6 col-lg-3">
+      <!-- <img [src]="weatherGif" alt="Weather Image" height="350vh" width="350vw" style=" margin-top: 2rem;"> -->
     </div>
-    <div class="col-md-6 col-lg-7">
+    <div class="col-md-6 col-lg-6 mt-5">
       <div class="card">
         <div *ngIf="weatherData">
           <div class="row">
-            <div class="col-10 d-flex">
-              <h2>Weather in {{ weatherData.name }}</h2>
+            <div class="col-8 d-flex">
+              <h2 class="heading">Weather in {{ weatherData.name }}</h2>
             </div>
             <div class="col-2 mt-3">
               <label class="switch">
-                <input type="checkbox" checked>
+                <input type="checkbox" [(ngModel)]="toggleValue" (change)="toggleChanged()" checked>
                 <span class="slider round"></span>
               </label>
             </div>
           </div>
-          <p>Description: {{ weatherData.weather[0].description }}</p>
-          <p>Weather Condition: {{ weatherData.weather[0].main }}</p>
-          <i [class]="weatherIcon(weatherData.weather[0].main)"></i>
-          <p class="temp">Temperature: {{ weatherData.main.temp }}°C</p>
-          <p>Humidity: {{ weatherData.main.humidity }}%</p>
-          <p>Visibility: {{ weatherData.visibility}}</p>
-          <p>Wind Speed: {{ weatherData.wind.speed}}</p>
+          <div class="row">
+            <div class="col-8">
+              <p>Description: {{ weatherData.weather[0].description }}</p>
+              <p>Weather Condition: {{ weatherData.weather[0].main }}</p>
+              <i [class]="weatherIcon(weatherData.weather[0].main)"></i>
+              <p>Humidity: {{ weatherData.main.humidity }}%</p>
+              <p>Visibility: {{ weatherData.visibility}}</p>
+              <p>Wind Speed: {{ weatherData.wind.speed}}</p>
+            </div>
+            <div class="col-4">
+              <div *ngIf="!toggleValue">Temperature <h4 class="temp mt-3">{{ temperature }}°C</h4> </div>
+              <div *ngIf="toggleValue">Temperature <h4 class="temp mt-3">{{ temperature }}°F</h4> </div>
+
+            </div>
+          </div>
+
         </div>
       </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
     </div>
   </div>
 </div>
@@ -104,7 +117,7 @@ API. -->
           <div *ngFor="let forecast of forecastData">
             <p>Date/Time: {{ forecast.dt_txt }}</p>
             <p>Description: {{ forecast.weather[0].description }}</p>
-            <p>Temperature: {{ forecast.main.temp }}°C</p>
+            <p>Temperature: {{ (forecast.main.temp)}}°C</p>
             <p>Humidity: {{ forecast.main.humidity }}%</p>
             <hr>
           </div>
@@ -112,4 +125,4 @@ API. -->
       </div>
     </div>
   </div>
-</div>  
+</div>
