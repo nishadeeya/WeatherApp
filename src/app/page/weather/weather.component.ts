@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WeatherService } from '../../weather.service';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule,ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,NgSelectModule, FormsModule,
+    ReactiveFormsModule],
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss']
 })
@@ -15,13 +17,28 @@ export class WeatherComponent {
   weatherData: any;
   forecastData: any[];
   weatherGif: string;
-
-  constructor(private weatherService: WeatherService) { }
+  weatherType = [
+    { id: 1, name: 'Current-Weather' },
+    { id: 2, name: 'Forecast-Weather' },
+  ];
+  selectedCity: any;
+  enableSelect: boolean=true;
+  weatherForm: FormGroup;
+  currentWeather: boolean;
+  constructor(private weatherService: WeatherService,private cd:ChangeDetectorRef) { }
   ngOnInit(): void {
     this.getCurrentLocation();
+    this.weatherForm = new FormGroup({
+      city: new FormControl(''),
+      selectWeather: new FormControl(null),
+    })
   }
   getWeather() {
-    this.weatherService.getWeather(this.city)
+    this.currentWeather=true;
+
+    console.log(this.weatherForm.value.city);
+    
+    this.weatherService.getWeather(this.weatherForm.value.city)
       .then(response => {
         this.weatherData = response.data;
       })
@@ -31,7 +48,7 @@ export class WeatherComponent {
   }
 
   getForecast() {
-    this.weatherService.getForecast(this.city)
+    this.weatherService.getForecast(this.weatherForm.value.city)
       .then(response => {
         console.log(response);
         
@@ -55,9 +72,9 @@ export class WeatherComponent {
     //     return `wi wi-day-sunny`
     // }
       switch (condition) {
-      case 'Clouds':
+      case 'Sunny':
         return 'assets/sunny.gif';
-      case '':
+      case 'Clouds':
         return 'assets/cloudy.gif';
       case 'rainy':
         return 'assets/images/rainy.png';
@@ -67,6 +84,7 @@ export class WeatherComponent {
     }
   }
   getCurrentLocation() {
+    this.currentWeather=true;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -89,5 +107,23 @@ export class WeatherComponent {
     } else {
       console.log('Geolocation is not supported by this browser.');
     }
+  }
+  onChangeWeatherType(e) {
+    console.log(e.id);
+    if(e.id == 1){
+      this.getWeather();
+      this.currentWeather=true;
+    }else{
+      this.getForecast();
+      this.currentWeather=false;
+    }
+  }
+  onInput()
+  {
+    this.weatherForm.patchValue({
+     selectWeather:null
+    })
+    this.enableSelect=false;
+    this.cd.detectChanges();
   }
 }
