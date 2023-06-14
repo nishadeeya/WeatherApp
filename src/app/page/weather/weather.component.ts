@@ -51,6 +51,7 @@ export class WeatherComponent {
       })
       .catch(error => {
         console.log('Error:', error);
+        alert("ni")
       });
   }
 
