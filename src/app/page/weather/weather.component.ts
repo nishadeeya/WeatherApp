@@ -10,7 +10,7 @@ import { FahTocelPipePipe } from 'src/app/common/FahTocel/FahTocel-pipe.pipe';
   selector: 'app-weather',
   standalone: true,
   imports: [CommonModule,FormsModule,NgSelectModule, FormsModule,
-    ReactiveFormsModule,],
+    ReactiveFormsModule,CelToFahPipePipe,FahTocelPipePipe],
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss'],
   providers: [CelToFahPipePipe,FahTocelPipePipe]
@@ -61,6 +61,7 @@ export class WeatherComponent {
         console.log(response);
         
         this.forecastData = response.data.list;
+        this.temperature =  this.weatherData.main.temp
       })
       .catch(error => {
         console.log('Error:', error);
@@ -139,14 +140,14 @@ export class WeatherComponent {
     this.cd.detectChanges();
   }
   toggleChanged() {
-    if(this.toggleValue == true){
-      this.temperature = this.celToFah.transform(this.temperature); 
-      console.log(this.temperature);
+    // if(this.toggleValue == true){
+    //   this.temperature = this.celToFah.transform(this.temperature); 
+    //   console.log(this.temperature);
          
-    }else{
-      this.temperature = this.FahTocel.transform(this.temperature);    
-      console.log(this.temperature);
-    }
+    // }else{
+    //   this.temperature = this.FahTocel.transform(this.temperature);    
+    //   console.log(this.temperature);
+    // }
     console.log('Toggle value:', this.toggleValue);
     // Perform any desired actions based on the new toggle value
   }

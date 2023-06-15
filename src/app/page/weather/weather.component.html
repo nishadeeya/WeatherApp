@@ -45,9 +45,10 @@
               <p>Wind Speed: {{ weatherData.wind.speed}}</p>
             </div>
             <div class="col-4">
-              <div *ngIf="!toggleValue">Temperature <h4 class="temp mt-3">{{ temperature }}°C</h4>
+             
+              <div *ngIf="!toggleValue">Temperature <h4 class="temp mt-3"> {{weatherData.main.temp}}°C</h4>
               </div>
-              <div *ngIf="toggleValue">Temperature <h4 class="temp mt-3">{{ temperature }}°F</h4>
+              <div *ngIf="toggleValue">Temperature <h4 class="temp mt-3">{{weatherData.main.temp | FahTocel}}°F</h4>
               </div>
 
             </div>
@@ -94,12 +95,16 @@
                 <td>{{ forecast.weather[0].main }}</td>
                 <td>{{ forecast.wind.speed }}</td>
                 <td class="temp">
-                  <div *ngIf="!toggleValue">
+                  <div *ngIf="!toggleValue"><p class="temp"> {{forecast.main.temp}}°C</p>
+                  </div>
+                  <div *ngIf="toggleValue"><p class="temp">{{forecast.main.temp | FahTocel}}°F</p>
+                  </div>
+                  <!-- <div *ngIf="!toggleValue">
                     <p>{{ temperature }}°C</p>
                   </div>
                   <div *ngIf="toggleValue">
                     <p>{{ temperature }}°F</p>
-                  </div>
+                  </div> -->
                 </td>
               </tr>
 
