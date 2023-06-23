@@ -51,7 +51,7 @@ export class WeatherComponent {
       })
       .catch(error => {
         console.log('Error:', error);
-        alert("ni")
+        // alert("ni")
       });
   }
 
@@ -62,6 +62,8 @@ export class WeatherComponent {
         
         this.forecastData = response.data.list;
         this.temperature =  this.weatherData.main.temp
+        this.weatherGif=this.weatherIcon(this.weatherData.weather[0].main)
+        console.log(this.weatherGif);
       })
       .catch(error => {
         console.log('Error:', error);
@@ -89,6 +91,8 @@ export class WeatherComponent {
         return 'assets/clear.gif';
         case 'Haze':
         return 'assets/haze.gif';
+        case 'Rain':
+          return 'assets/rainy.gif';
       // Add more cases for other weather conditions
       default:
         return '';
