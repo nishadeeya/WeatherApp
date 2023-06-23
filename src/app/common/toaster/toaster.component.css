@@ -1,0 +1,44 @@
+.toaster {
+    color: white;
+  }
+  ::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__surface
+  {
+    background-color: #494e50;
+  }
+  .text_success {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font: normal normal medium 18px/50px Helvetica;
+    letter-spacing: 0px;
+    color: white;
+    opacity: 1;
+  }
+  .flex-row {
+    gap: 20px
+  }
+  .text_danger {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font: normal normal medium 18px/50px Helvetica;
+    letter-spacing: 0px;
+    color: white;
+    opacity: 1;
+  }
+  .done {
+    color: #5BB6E9;
+  }
+  .close {
+    color: red;
+  }
+  .image {
+    width: 23px !important;
+    height: 23px !important;
+  }
+  ::ng-deep .mat-snack-bar-container {
+    margin-top: 9.7vh !important;
+  }
+
+
+

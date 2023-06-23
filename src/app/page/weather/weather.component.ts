@@ -5,6 +5,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { WeatherService } from 'src/app/core/service/weather.service';
 import { CelToFahPipePipe } from 'src/app/common/celToFah/celToFah-pipe.pipe';
 import { FahTocelPipePipe } from 'src/app/common/FahTocel/FahTocel-pipe.pipe';
+import { ToasterComponent } from 'src/app/common/toaster/toaster.component';
+import { ApiServiceService } from 'src/app/core/api-service.service';
 
 @Component({
   selector: 'app-weather',
@@ -30,7 +32,8 @@ export class WeatherComponent {
   currentWeather: boolean;
   toggleValue: boolean =false;
   temperature: any;
-  constructor(private weatherService: WeatherService,private cd:ChangeDetectorRef,private celToFah: CelToFahPipePipe,private FahTocel: FahTocelPipePipe) { }
+  nodata: boolean;
+  constructor(private weatherService: WeatherService,private toaster: ApiServiceService,private cd:ChangeDetectorRef,private celToFah: CelToFahPipePipe,private FahTocel: FahTocelPipePipe) { }
   ngOnInit(): void {
     this.getCurrentLocation();
     this.weatherForm = new FormGroup({
@@ -40,7 +43,7 @@ export class WeatherComponent {
   }
   getWeather() {
     this.currentWeather=true;
-
+    this.nodata=false;
     console.log(this.weatherForm.value.city);
     
     this.weatherService.getWeather(this.weatherForm.value.city)
@@ -51,7 +54,9 @@ export class WeatherComponent {
       })
       .catch(error => {
         console.log('Error:', error);
-        // alert("ni")
+        this.toaster.toasterBar("No data found" ,'Success')
+        this.nodata=true;
+
       });
   }
 
@@ -59,7 +64,7 @@ export class WeatherComponent {
     this.weatherService.getForecast(this.weatherForm.value.city)
       .then(response => {
         console.log(response);
-        
+        this.nodata=false;
         this.forecastData = response.data.list;
         this.temperature =  this.weatherData.main.temp
         this.weatherGif=this.weatherIcon(this.weatherData.weather[0].main)
@@ -67,6 +72,8 @@ export class WeatherComponent {
       })
       .catch(error => {
         console.log('Error:', error);
+        this.toaster.toasterBar("No data found" ,'Success')
+        this.nodata=true;
       });
   }
   weatherIcon(condition) {
@@ -103,6 +110,7 @@ export class WeatherComponent {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          this.nodata=false;
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
           this.weatherService.getCurrentWeather(latitude, longitude)
@@ -115,6 +123,8 @@ export class WeatherComponent {
             })
             .catch((error: any) => {
               console.log('Error occurred: ' + error);
+              this.toaster.toasterBar("No data found" ,'Success')
+              this.nodata=true;
             });
         },
         (error) => {

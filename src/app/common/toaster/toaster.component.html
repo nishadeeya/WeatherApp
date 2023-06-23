@@ -1,0 +1,11 @@
+<div class="toaster">
+  <div class="d-flex flex-row ">
+    <!-- <img *ngIf="data.action === 'Success'" class="image" src="../../../assets/Alert-images/Sucess Icon.svg"
+      alt="Sucess Icon" />
+    <img *ngIf="data.action !== 'Success'" class="image" src="../../../assets/Alert-images/Alert Icon.svg"
+      alt="Sucess Icon" /> -->
+    <div [ngClass]="data.action === 'Success' ? 'text_success' : 'text_danger'">
+      {{ data.message }}
+    </div>
+  </div>
+</div>
